@@ -1,199 +1,69 @@
 "use client";
 
-import { DataList, Text, Skeleton, IconButton, Flex } from "@radix-ui/themes";
+import { DataList } from "@radix-ui/themes";
 import { User } from "../types";
-import { CopyStatus } from "./CopyStatus";
-import { EnvelopeClosedIcon } from "@radix-ui/react-icons";
+import { InfoItem } from "./InfoItem";
+import { Signal } from "@preact/signals-react";
 
 interface UserInfoProps {
-  user: User | null;
+  userSignal: Signal<User | null>;
   loading: boolean;
-  copiedId: string;
-  onCopy: (text: string, id: string) => void;
   email: string;
-  onInboxOpen: () => void;
+}
+
+interface UserField {
+  id: string;
+  label: string;
+  getValue: (user: User, email: string) => string;
 }
 
 export function UserInfo({
-  user,
+  userSignal,
   loading,
-  copiedId,
-  onCopy,
   email,
-  onInboxOpen,
 }: Readonly<UserInfoProps>) {
-  if (loading) {
-    return (
-      <DataList.Root>
-        <DataList.Item>
-          <DataList.Label minWidth="60px" style={{ marginLeft: "8px" }}>
-            <Text size="2">姓</Text>
-          </DataList.Label>
-          <DataList.Value>
-            <Skeleton>
-              <Text>Loading...</Text>
-            </Skeleton>
-          </DataList.Value>
-        </DataList.Item>
-        <DataList.Item>
-          <DataList.Label minWidth="60px" style={{ marginLeft: "8px" }}>
-            <Text size="2">名</Text>
-          </DataList.Label>
-          <DataList.Value>
-            <Skeleton>
-              <Text>Loading...</Text>
-            </Skeleton>
-          </DataList.Value>
-        </DataList.Item>
-        <DataList.Item>
-          <DataList.Label minWidth="60px" style={{ marginLeft: "8px" }}>
-            <Text size="2">电话</Text>
-          </DataList.Label>
-          <DataList.Value>
-            <Skeleton>
-              <Text>Loading...</Text>
-            </Skeleton>
-          </DataList.Value>
-        </DataList.Item>
-        <DataList.Item>
-          <DataList.Label minWidth="60px" style={{ marginLeft: "8px" }}>
-            <Text size="2">SSN</Text>
-          </DataList.Label>
-          <DataList.Value>
-            <Skeleton>
-              <Text>Loading...</Text>
-            </Skeleton>
-          </DataList.Value>
-        </DataList.Item>
-        <DataList.Item>
-          <DataList.Label minWidth="60px" style={{ marginLeft: "8px" }}>
-            <Text size="2">邮箱</Text>
-          </DataList.Label>
-          <DataList.Value>
-            <Skeleton>
-              <Text>Loading...</Text>
-            </Skeleton>
-          </DataList.Value>
-        </DataList.Item>
-      </DataList.Root>
-    );
-  }
-
-  if (!user) return null;
+  const userFields: UserField[] = [
+    {
+      id: "last",
+      label: "姓",
+      getValue: (user) => user.name.last,
+    },
+    {
+      id: "first",
+      label: "名",
+      getValue: (user) => user.name.first,
+    },
+    {
+      id: "phone",
+      label: "电话",
+      getValue: (user) => user.phone,
+    },
+    {
+      id: "ssn",
+      label: "SSN",
+      getValue: (user) => user.id.value || "暂无",
+    },
+    {
+      id: "email",
+      label: "邮箱",
+      getValue: (_, email) => email,
+    },
+  ];
 
   return (
     <DataList.Root>
-      <DataList.Item>
-        <DataList.Label minWidth="60px" style={{ marginLeft: "8px" }}>
-          <Text size="2">姓</Text>
-        </DataList.Label>
-        <DataList.Value>
-          <IconButton
-            size="3"
-            aria-label="复制"
-            color="gray"
-            variant="ghost"
-            className="group"
-            onClick={() => onCopy(user.name.last, "last")}
-          >
-            <Flex align="center" gap="2">
-              <Text highContrast>{user.name.last}</Text>
-              <CopyStatus isCopied={copiedId === "last"} />
-            </Flex>
-          </IconButton>
-        </DataList.Value>
-      </DataList.Item>
-      <DataList.Item>
-        <DataList.Label minWidth="60px" style={{ marginLeft: "8px" }}>
-          <Text size="2">名</Text>
-        </DataList.Label>
-        <DataList.Value>
-          <IconButton
-            size="3"
-            aria-label="复制"
-            color="gray"
-            variant="ghost"
-            className="group"
-            onClick={() => onCopy(user.name.first, "first")}
-          >
-            <Flex align="center" gap="2">
-              <Text highContrast>{user.name.first}</Text>
-              <CopyStatus isCopied={copiedId === "first"} />
-            </Flex>
-          </IconButton>
-        </DataList.Value>
-      </DataList.Item>
-      <DataList.Item>
-        <DataList.Label minWidth="60px" style={{ marginLeft: "8px" }}>
-          <Text size="2">电话</Text>
-        </DataList.Label>
-        <DataList.Value>
-          <IconButton
-            size="3"
-            aria-label="复制"
-            color="gray"
-            variant="ghost"
-            className="group"
-            onClick={() => onCopy(user.phone, "phone")}
-          >
-            <Flex align="center" gap="2">
-              <Text highContrast>{user.phone}</Text>
-              <CopyStatus isCopied={copiedId === "phone"} />
-            </Flex>
-          </IconButton>
-        </DataList.Value>
-      </DataList.Item>
-      <DataList.Item>
-        <DataList.Label minWidth="60px" style={{ marginLeft: "8px" }}>
-          <Text size="2">SSN</Text>
-        </DataList.Label>
-        <DataList.Value>
-          <IconButton
-            size="3"
-            aria-label="复制"
-            color="gray"
-            variant="ghost"
-            className="group"
-            onClick={() => onCopy(user.id.value || "暂无", "ssn")}
-          >
-            <Flex align="center" gap="2">
-              <Text highContrast>{user.id.value || "暂无"}</Text>
-              <CopyStatus isCopied={copiedId === "ssn"} />
-            </Flex>
-          </IconButton>
-        </DataList.Value>
-      </DataList.Item>
-      <DataList.Item>
-        <DataList.Label minWidth="60px" style={{ marginLeft: "8px" }}>
-          <Text size="2">邮箱</Text>
-        </DataList.Label>
-        <DataList.Value>
-          <Flex align="center" gap="3">
-            <IconButton
-              size="3"
-              aria-label="复制"
-              color="gray"
-              variant="ghost"
-              className="group"
-              onClick={() => onCopy(email, "email")}
-            >
-              <Flex align="center" gap="2">
-                <Text highContrast>{email}</Text>
-                <CopyStatus isCopied={copiedId === "email"} />
-              </Flex>
-            </IconButton>
-            <IconButton
-              size="1"
-              variant="soft"
-              color="gray"
-              onClick={onInboxOpen}
-              disabled={!email}
-            >
-              <EnvelopeClosedIcon width="16" height="16" />
-            </IconButton>
-          </Flex>
-        </DataList.Value>
-      </DataList.Item>
+      {userFields.map((field) => (
+        <InfoItem
+          key={field.id}
+          label={field.label}
+          value={
+            userSignal.value
+              ? field.getValue(userSignal.value, email)
+              : undefined
+          }
+          loading={loading}
+        />
+      ))}
     </DataList.Root>
   );
 }

@@ -4,9 +4,13 @@
 
 </div>
 
+<div align="center">
+
 # 基于IP的真实地址生成器 🌍
 
-这是一个基于Web的应用程序，可以根据IP地址生成真实的随机地址信息。它使用多个API来获取位置数据和随机用户信息，为用户提供一个完整的虚拟身份。
+</div>
+
+这是一个基于Web的应用程序，可以根据IP地址生成真实的随机地址信息。它使用多个API来获取位置数据和随机用户信息，为您提供一个完整的虚拟身份。
 
 ## 访问地址
 
@@ -37,7 +41,7 @@ https://ip-geoaddress-generator.pages.dev/
 
 ## 部署
 
-[Cloudfare部署](Cloudfare部署教程.md)
+[Cloudflare部署](https://github.com/GuooGaii/ip-geoaddress-generator/blob/main/Cloudflare部署教程.md)
 
 Docker部署
 
@@ -77,7 +81,9 @@ docker run -p 3000:3000 guoogaii/ip-geoaddress-generator:latest
 
 感谢LinuxDo论坛的[F-droid](https://linux.do/u/F-droid/summary)曾经提供的[Docker部署教程以及镜像](https://linux.do/t/topic/234815)
 
-感谢LinuxDo论坛的[HirasawaYui](https://linux.do/u/HirasawaYui/summary)提供的GitHub Action
+感谢LinuxDo论坛的[HirasawaYui](https://linux.do/u/HirasawaYui/summary)曾经提供的GitHub Action
+
+感谢[yuyins](https://github.com/houzixiashanxiedaima)提供的GitHub Action
 
 感谢以下API服务的支持：
 
@@ -86,6 +92,10 @@ docker run -p 3000:3000 guoogaii/ip-geoaddress-generator:latest
 - [RandomUser](https://randomuser.me/) - 随机用户信息生成
 - [OpenStreetMap](https://www.openstreetmap.org/) - 地理编码服务
 - [Google Maps](https://www.google.com/maps) - 地图显示服务
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=GuooGaii/ip-geoaddress-generator&type=Date)](https://www.star-history.com/#GuooGaii/ip-geoaddress-generator&Date)
 
 ## 许可证
 
